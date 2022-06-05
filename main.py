@@ -1,10 +1,17 @@
 from asyncio import events
+from curses import keyname
 from urllib import response
 import requests, time
 from datetime import date
+import json
 
-uri_api_cryto = 'https://api.coinstats.app/public/v1/coins?skip=0&limit=10'
+file = open("PRIVATE.json", 'r')
 
+
+content = json.load(file)
+
+IFTTT_KEY= content["KEYS"][0]["IFTTT_KEY"]
+uri_api_cryto = content["APIS"][0]["CRYTO"]
 BITCOIN_PRICE_THRESHOLD = 10000  # Set this to whatever you like
 
 #ifttt_webhook_url = f'https://maker.ifttt.com/trigger/test_event/with/key/{your_key_is}'
@@ -35,7 +42,6 @@ def get_latest_bitcoin_price():
 def post_ifttt_webhook(event, value):
     # The payload that will be sent to IFTTT service
     data = {'value1': value}
-    IFTTT_KEY= 'gdLaG0Iqzy1JS2fKQ-p8JC5R8mnltiGQSBO213K7kAn'
     IFTTT_WEBHOOKS_URL = f"https://maker.ifttt.com/trigger/{event}/with/key/{IFTTT_KEY}"
     #ifttt_event_url = IFTTT_WEBHOOKS_URL.format(event,IFTTT_KEY)
     # Sends a HTTP POST request to the webhook URL
@@ -69,4 +75,10 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    print("Key: Value")
+    content = json.load(file)
+    print(content["KEYS"][0]["IFTTT_KEY"])
+    #assert yaml_content['IFTTT_KEY'] 
+    #print(content['KEYS'])
+
+    #main()
